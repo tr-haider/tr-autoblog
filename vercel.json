@@ -20,10 +20,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "env": {
-    "LLM_PROVIDER": "@llm_provider",
-    "LLM_API_KEY": "@llm_api_key",
-    "LLM_MODEL": "@llm_model"
-  }
+  ]
 }
