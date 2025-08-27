@@ -1,14 +1,12 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "name": "autoblog-ai",
   "buildCommand": "npm run vercel:build",
   "outputDirectory": "blog-ui/build",
   "installCommand": "npm run install:all",
-  "framework": "create-react-app",
   "functions": {
     "autoblog-api/index.js": {
-      "runtime": "nodejs18.x"
+      "runtime": "@vercel/node"
     }
   },
   "routes": [

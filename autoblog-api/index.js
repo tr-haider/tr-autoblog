@@ -1,48 +1,43 @@
-const { NestFactory } = require('@nestjs/core');
-const { AppModule } = require('../autoblog-ai/dist/app.module');
-
-let app;
-
+// Simple proxy to handle the API routes
 module.exports = async (req, res) => {
-  if (!app) {
-    try {
-      app = await NestFactory.create(AppModule, {
-        logger: ['error', 'warn', 'log'],
-      });
-      
-      app.enableCors({
-        origin: true,
-        credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-      });
-      
-      await app.init();
-    } catch (error) {
-      console.error('Failed to initialize NestJS app:', error);
-      return res.status(500).json({ error: 'Failed to initialize application' });
-    }
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  // Handle preflight OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
 
   try {
-    const httpAdapter = app.getHttpAdapter();
-    const instance = httpAdapter.getInstance();
-    
-    // Handle preflight OPTIONS requests
-    if (req.method === 'OPTIONS') {
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-      return res.status(200).end();
+    // For now, return a simple response to test deployment
+    if (req.url.includes('suggested-topics')) {
+      return res.json([
+        {
+          title: 'Automating HIPAA Compliance with AI-Powered Audit Tools',
+          description: 'How AI can streamline HIPAA compliance monitoring and reduce manual audit workload',
+          keywords: ['hipaa', 'ai', 'compliance', 'automation', 'monitoring'],
+          category: 'healthcare-software-development',
+          relevance: 10,
+          source: 'fallback'
+        }
+      ]);
     }
     
-    // Remove /api prefix from the URL for internal routing
-    req.url = req.url.replace(/^\/api/, '');
+    // Default response
+    res.json({ 
+      message: 'AutoBlog AI API is running on Vercel',
+      timestamp: new Date().toISOString(),
+      url: req.url,
+      method: req.method
+    });
     
-    // Handle the request with NestJS
-    instance(req, res);
   } catch (error) {
-    console.error('Request handling error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('API Error:', error);
+    res.status(500).json({ 
+      error: 'Internal server error',
+      message: error.message 
+    });
   }
 };
