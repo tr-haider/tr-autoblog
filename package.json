@@ -1,0 +1,30 @@
+{
+  "name": "autoblog-ai-fullstack",
+  "version": "1.0.0",
+  "description": "AI-powered blog generation tool with Next.js frontend and NestJS backend",
+  "scripts": {
+    "start": "./start-both.sh",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\" --names \"backend,frontend\" --prefix-colors \"blue,green\"",
+    "dev:detailed": "concurrently \"cd autoblog-ai && npm run start:dev\" \"cd blog-ui && npm start\" --names \"🚀backend,🌐frontend\" --prefix-colors \"blue,green\" --kill-others-on-fail",
+    "start:backend": "cd autoblog-ai && npm run start:dev",
+    "start:frontend": "cd blog-ui && npm start",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "install:backend": "cd autoblog-ai && npm install",
+    "install:frontend": "cd blog-ui && npm install",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd autoblog-ai && npm run build",
+    "build:frontend": "cd blog-ui && npm run build",
+    "vercel:build": "npm run install:all && npm run build",
+    "blog": "cd autoblog-ai && npm run blog",
+    "blog:single": "cd autoblog-ai && npm run blog:single"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.3.49",
+    "@langchain/ollama": "^0.2.3",
+    "axios": "^1.11.0",
+    "cheerio": "^1.1.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

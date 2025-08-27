@@ -1,0 +1,29 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "name": "autoblog-ai",
+  "buildCommand": "npm run vercel:build",
+  "outputDirectory": "blog-ui/build",
+  "installCommand": "npm run install:all",
+  "framework": "create-react-app",
+  "functions": {
+    "autoblog-api/index.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/autoblog-api/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "LLM_PROVIDER": "@llm_provider",
+    "LLM_API_KEY": "@llm_api_key",
+    "LLM_MODEL": "@llm_model"
+  }
+}

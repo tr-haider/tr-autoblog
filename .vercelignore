@@ -1,0 +1,46 @@
+# Files and directories to ignore during Vercel deployment
+
+# Development files
+.env.local
+.env.development
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies that will be reinstalled
+node_modules/
+autoblog-ai/node_modules/
+blog-ui/node_modules/
+
+# Build artifacts (will be rebuilt)
+autoblog-ai/dist/
+blog-ui/build/
+
+# Development and testing
+autoblog-ai/test/
+blog-ui/src/**/*.test.*
+autoblog-ai/src/**/*.spec.ts
+
+# Documentation (reduce bundle size)
+*.md
+!README.md
+docs/
+
+# Local development tools
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+test_*.json
+full_blog_test.*
+*.docx
+
+# Development scripts
+start-both.sh
